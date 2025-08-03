@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Friendship Day 💌</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: relative;
+      color: #444;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #ff4081;
+      margin-top: 40px;
+      text-align: center;
+      text-shadow: 1px 1px 4px #fff;
+    }
+
+    .input-box {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    input, button {
+      padding: 12px 18px;
+      font-size: 1.1em;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    input {
+      width: 220px;
+      outline: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+      background: #ff4081;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e91e63;
+      transform: scale(1.05);
+    }
+
+    .envelope-container {
+      display: none;
+      text-align: center;
+      margin-top: 60px;
+      animation: fadeIn 1s ease forwards;
+      cursor: pointer;
+    }
+
+    .envelope {
+      width: 200px;
+      height: 140px;
+      background: #fff;
+      position: relative;
+      margin: 0 auto;
+      border-radius: 8px;
+      border: 2px solid #ff4081;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: -70px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 70px solid #ff4081;
+      border-radius: 8px;
+    }
+
+    .click-note {
+      font-weight: bold;
+      margin-top: 15px;
+      color: #e91e63;
+    }
+
+    .letter {
+      display: none;
+      background: #fff8dc;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 40px auto;
+      font-size: 1.3em;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in-out;
+      color: #333;
+    }
+
+    #downloadBtn {
+      display: none;
+      background-color: #4CAF50;
+      margin: 20px auto;
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animated Hearts */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff4d6d;
+      transform: rotate(45deg);
+      animation: float 6s infinite;
+    }
+
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff4d6d;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        bottom: 0;
+        opacity: 1;
+      }
+      100% {
+        bottom: 100%;
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💖 Happy Friendship Day 💖</h1>
+
+  <div class="input-box">
+    <input type="text" id="userName" placeholder="Enter your name">
+    <button onclick="showEnvelope()">Get My Letter</button>
+  </div>
+
+  <div class="envelope-container" id="envelopeContainer" onclick="openLetter()">
+    <div class="envelope"></div>
+    <div class="click-note">📩 Click the envelope to open</div>
+  </div>
+
+  <div class="letter" id="letterMessage"></div>
+
+  <button id="downloadBtn" onclick="downloadPDF()" margin="margin-top">📥 Download as PDF</button>
+
+  <!-- Background music -->
+  <audio id="bgMusic" src="dost.mp3"></audio>
+
+  <script>
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 500);
+
+    function showEnvelope() {
+      const name = document.getElementById('userName').value.trim();
+      if (!name) {
+        alert("Please enter your name 😊");
+        return;
+      }
+      document.getElementById('envelopeContainer').style.display = 'block';
+      document.getElementById('letterMessage').style.display = 'none';
+      document.getElementById('downloadBtn').style.display = 'none';
+    }
+
+    function openLetter() {
+      const name = document.getElementById('userName').value.trim();
+      const envelopeContainer = document.getElementById('envelopeContainer');
+      envelopeContainer.style.display = 'none';
+
+      const message = `
+        <div id="pdfContent">
+        Dear <strong>${name}</strong>,<br><br>
+        On this beautiful Friendship Day, I want to say how much your friendship means to me. 💫<br>
+        Your presence brings joy, your words bring peace, and your heart brings light to those around you. 🌟<br>
+        Thank you for being a friend who is always there, always kind, and always true.<br><br>
+        Here's to more memories, more laughter, and endless friendship!<br><br>
+        With heartfelt wishes,<br>
+        <strong>Avinash 💖</strong>
+        </div>
+      `;
+      const letterDiv = document.getElementById('letterMessage');
+      letterDiv.innerHTML = message;
+      letterDiv.style.display = 'block';
+
+      // Play music
+      document.getElementById('bgMusic').play();
+
+      // Show download button
+      document.getElementById('downloadBtn').style.display = 'block';
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById('pdfContent');
+      html2pdf().from(element).save("Friendship_Letter_Avinash.pdf");
+    }
+  </script>
+
+</body>
+</html>
